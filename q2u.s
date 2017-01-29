@@ -1,13 +1,18 @@
 .data
-c: .asciiz "yo Bro%tU tattI haI"
+c: .space 100 #allocating 100bytes to variable c
 r: .asciiz ""
 .text
 .globl main
 main:
         li $t0,'A'
         li $t1,'a'
-        sub $s0,$t0,$t1
-#lb $t7,c
+        sub $s0,$t0,$t1 #stores -32 in $0 (adding this to smaller case converts them to uppercase)
+    
+        li $v0,8
+        la $a0,c
+        li $a1,100
+        syscall #qtspim command for string input $a0 is pointer to variable and $a1 is length of string
+
 loop:
         lb $t2,c($t8)
         bge $t2,'a',cs
@@ -31,7 +36,7 @@ updat:
 exit:
         li $v0,4
         la $a0,r
-        syscall
+        syscall #qtspim command for printing string
 
         li $v0,10
         syscall
