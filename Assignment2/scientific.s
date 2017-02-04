@@ -3,6 +3,7 @@ nega: .asciiz "-"
 posi: .asciiz "+"
 exp: .asciiz "e"
 dot: .asciiz "."
+expon: .asciiz "00"
 .text
 .globl main
 main:
@@ -106,9 +107,24 @@ exit:
         li $v0,4
         syscall
         bge $s0,0,flag
-        li $v0,1
-        move $a0,$s0
+        sub $s0,$zero,$s0
+        la $a0,nega
+        li $v0,4
+        syscall 
+        lb $t6,expon($zero)
+        li $t9,10
+        div $t1,$s0,$t9
+        add $t6,$t1,$t6
+        sb $t6,expon($zero)
+        li $t7,1
+        lb $t6,expon($t7)
+        rem $t1,$s0,$t9
+        add $t6,$t1,$t6
+        sb $t6,expon($t7)
+        la $a0,expon
+        li $v0,4
         syscall
+
         li $v0,10
         syscall
 
@@ -116,8 +132,18 @@ flag:
         la $a0,posi
         li $v0,4
         syscall
-        li $v0,1
-        move $a0,$s0
+        lb $t6,expon($zero)
+        li $t9,10
+        div $t1,$s0,$t9
+        add $t6,$t1,$t6
+        sb $t6,expon($zero)
+        li $t7,1
+        lb $t6,expon($t7)
+        rem $t1,$s0,$t9
+        add $t6,$t1,$t6
+        sb $t6,expon($t7)
+        la $a0,expon
+        li $v0,4
         syscall
         li $v0,10
         syscall
