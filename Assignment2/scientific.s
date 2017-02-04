@@ -10,12 +10,12 @@ main:
         li $v0,5
         syscall
         mtc1 $v0,$f0
-        cvt.s.w $f0,$f0
+        cvt.s.w $f0,$f0 #Take 1st numerator as input and convert it to float
 
         li $v0,5
         syscall
         mtc1 $v0,$f1
-        cvt.s.w $f1,$f1
+        cvt.s.w $f1,$f1  #Take 1st denominator as input and convert it to float
 
         li $v0,5
         syscall
@@ -29,11 +29,11 @@ main:
 
         div.s $f0,$f0,$f1
         div.s $f1,$f2,$f3
-        add.s $f0,$f0,$f1
+        add.s $f0,$f0,$f1 #Converts fractions to float and add them
 
         li $t0,10
         mtc1 $t0,$f2
-        cvt.s.w $f2,$f2
+        cvt.s.w $f2,$f2 
 
         li $t0,1
         mtc1 $t0,$f3
@@ -46,7 +46,7 @@ main:
         li $t0,2
         mtc1 $t0,$f5
         cvt.s.w $f5,$f5
-        div.s $f5,$f3,$f5
+        div.s $f5,$f3,$f5 #There are some values we need again and again, they are declared here and stored in float registors
 
         li $s0,0
 
@@ -57,7 +57,7 @@ main:
         bc1t negative
 
 
-positive:
+positive: #Branch if no. is positive
         c.eq.s $f0,$f1
         bc1t round
         c.le.s $f0,$f2
@@ -76,7 +76,8 @@ glo:
         addi $s0,$s0,-1
         j positive
 
-round:
+round: #Rounding of decimal to 2 decimal places.
+#Algorithm :- Multiply 1<=float<10 by 100 and add 0.5 if positive(We are dealing with absolute value so always add) and change it to integer.
         mul.s $f0,$f0,$f4
         add.s $f0,$f0,$f5
         cvt.w.s $f0,$f0
@@ -102,7 +103,7 @@ round:
         syscall
         j exit
 
-exit:
+exit: #Formatted output if exponent is '-'ve
         la $a0,exp
         li $v0,4
         syscall
@@ -128,7 +129,7 @@ exit:
         li $v0,10
         syscall
 
-flag:
+flag: #Formatted output if exponent part is '+'ve
         la $a0,posi
         li $v0,4
         syscall
@@ -148,7 +149,7 @@ flag:
         li $v0,10
         syscall
 
-negative:
+negative: #Branch if number is negative
         la $a0,nega
         li $v0,4
         syscall
