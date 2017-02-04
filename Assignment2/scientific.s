@@ -57,6 +57,8 @@ main:
 
 
 positive:
+        c.eq.s $f0,$f1
+        bc1t round
         c.le.s $f0,$f2
         bc1f gtt
         c.lt.s $f0,$f3
