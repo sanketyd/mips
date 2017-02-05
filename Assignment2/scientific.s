@@ -47,7 +47,7 @@ main:
         mtc1 $t0,$f5
         cvt.s.w $f5,$f5
         div.s $f5,$f3,$f5 #There are some values we need again and again, they are declared here and stored in float registors
-
+#regiser $f0 stores our value, $f1 stores float 0, $f2 -> 10, $f3 ->  1, $f4 -> 100, $f5-> 0.5;
         li $s0,0
 
         li $t0,0
@@ -59,11 +59,11 @@ main:
 
 positive: #Branch if no. is positive
         c.eq.s $f0,$f1
-        bc1t round
+        bc1t round #These 2 lines handle the case if our number is 0
         c.le.s $f0,$f2
-        bc1f gtt
+        bc1f gtt #divide number by 10 if it's greater than 10
         c.lt.s $f0,$f3
-        bc1t glo
+        bc1t glo #multiply number by 10 if smaller than1
         j round
 
 gtt:
