@@ -1,5 +1,5 @@
 .data
-fibo: .space 84
+fibo: .space 84#Given n is 20 at max.So allocating space for 21 integers.
 space: .asciiz " "
 .text
 .globl main
@@ -19,7 +19,7 @@ main:
         li $s2,1
         sw $s2,0($a3)
 
-fib:
+fib:#Calculating fibonacci numbers and storing them in array.
         ble $a1,2,print
         add $t0,$s1,$s2
         move $s1,$s2
@@ -29,7 +29,7 @@ fib:
         addi $a1,$a1,-1
         j fib
 
-print:
+print:#Printing array
         beq $s3,0,exit
         lw $a0,0($s4)
         li $v0,1
