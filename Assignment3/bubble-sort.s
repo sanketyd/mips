@@ -77,8 +77,10 @@ loop2:
         j loop2
 #Algorithm:-
 #       for(i=n;i>0;i--){
-#           for(j=i;j>1;j--){
+#            j=i
+#           while(j>1){
 #               if A[j]>A[j+1] swap
+#               j--
 #           }
 #       }
 
