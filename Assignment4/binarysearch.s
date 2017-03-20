@@ -1,6 +1,6 @@
 .data
-array:  .word 83, 94, 110, 400
-len:    .word      4
+array:  .word 1, 2, 3, 3, 4, 4, 6
+len:    .word      7
 inu:    .asciiz "Enter a positive number you want to search.\n"
 .text
 .globl main
@@ -22,11 +22,10 @@ main:
 #a2->adress of last word in array
         jal binsearch
 
-        beq $v0,0,no#Branch if number is not present in array
+        beq $v0,-1,no#Branch if number is not present in array
         la $t1,array
         subu $a0,$v0,$t1
-        addi $a0,$a0,4
-        sra $a0,$a0,2#Above 4 lines calculate index of element. We got no. of bits between first and that number so byte=bit/4
+        sra $a0,$a0,2#Above 4 lines calculate index of element. We got no. of bytes between first and that index=byte/4
         li $v0,1
         syscall
         li $v0,10
@@ -51,7 +50,7 @@ binsearch:
         move $v0,$a1
         lw $t0,($v0)
         beq $a0,$t0,exit
-        li $v0,0
+        li $v0,-1
         b exit
 
 search:
